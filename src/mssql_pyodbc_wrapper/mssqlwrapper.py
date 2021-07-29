@@ -47,21 +47,26 @@ def build_simple_query_string(query_type, table_name, columns):
 # ==== CLASS ====
 class MSSQLWrapper:
     # The wrapper receives only the server name and the database name as its arguments in the constructor.
-    def __init__(self, server_name, database):
-        self.driver = "SQL SERVER"
-        self.server_name = server_name
-        self.database = database
+    def __init__(self, connection, **kwargs):
+        self.connection = connection
+        allowed_attributes = {'server', 'database', 'dsn', 'uid', 'pwd'}
+        self.__dict__.update((keys, values) for keys, values in kwargs.items() if keys in allowed_attributes)
+
+    @classmethod
+    def from_localdb(cls, server, database):
+        return MSSQLWrapper(pyodbc.connect(f'DRIVER=SQL SERVER;'
+                                           f'SERVER={server};'
+                                           f'DATABASE={database};'), server=server, database=database)
+
+    @classmethod
+    def from_dsn(cls, dsn='dsn', uid='sa', pwd=''):
+        return MSSQLWrapper(pyodbc.connect(f'DSN={dsn};'
+                                           f'UID={uid};'
+                                           f'PWD={pwd}'), dsn=dsn, uid=dsn, pwd=pwd)
 
     def safe_select(self, table_name, columns):
         _sql_query = build_simple_query_string("SELECT", table_name, columns)
-
-        _connection = pyodbc.connect(f'DRIVER={self.driver};'
-                                     f'SERVER={self.server_name};'
-                                     f'DATABASE={self.database};')
-        return pd.read_sql_query(_sql_query, _connection)
+        return pd.read_sql_query(_sql_query, self.connection)
 
     def unsafe_select(self, sql_query):
-        _connection = pyodbc.connect(f'DRIVER={self.driver};'
-                                     f'SERVER={self.server_name};'
-                                     f'DATABASE={self.database};')
-        return pd.read_sql_query(sql_query, _connection)
+        return pd.read_sql_query(sql_query, self.connection)

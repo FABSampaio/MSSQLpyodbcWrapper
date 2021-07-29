@@ -11,14 +11,12 @@ def wrapper_fixture() -> MSSQLWrapper:
     _server_name = 'FSAMPAIO\\SQLEXPRESS'
     _database = 'DWDiagnostics'
 
-    return MSSQLWrapper(_server_name,
-                        _database
-                        )
+    return MSSQLWrapper.from_localdb(_server_name, _database)
 
 
 class TestMSSQLWrapper:
     def test_constructor(self, wrapper_fixture):
-        assert wrapper_fixture.server_name == 'FSAMPAIO\\SQLEXPRESS'
+        assert wrapper_fixture.server == 'FSAMPAIO\\SQLEXPRESS'
         assert wrapper_fixture.database == 'DWDiagnostics'
 
     def test_build_select_query_string(self, wrapper_fixture):
