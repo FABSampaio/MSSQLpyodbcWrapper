@@ -15,4 +15,4 @@ two arguments.
 This package is highly subject to change. New features may be
 added and/or existing ones removed.
 
-Francisco A. B. Sampaio, INEGI, 2021
+Francisco A. B. Sampaio, Portugal, 2021
