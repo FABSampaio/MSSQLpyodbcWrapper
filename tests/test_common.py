@@ -1,4 +1,4 @@
-# Francisco A. B. Sampaio, INEGI, 2021
+# Francisco A. B. Sampaio, Portugal, 2021
 import pytest
 from src.mssql_pyodbc_wrapper.mssqlwrapper import MSSQLWrapper, build_simple_query_string, QueryTypeError
 
