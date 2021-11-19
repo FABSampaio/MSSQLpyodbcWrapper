@@ -1,4 +1,4 @@
-# Francisco A. B. Sampaio, INEGI, 2021
+# Francisco A. B. Sampaio, Portugal, 2021
 # This package is a wrapper of the pyodbc module that acts as a simplified implementation for use cases where a local
 # SQL Server database is to be accessed.
 # It seeks to simplify use of the pyodbc module and, instead of offering the complete functionality of it, offer
